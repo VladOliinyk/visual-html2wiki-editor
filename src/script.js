@@ -9,9 +9,13 @@ function getHtml() {
     console.log("Here is your HTML: \n" + html);
 }
 
-
 function HTMLtoWIKI(html) {
     var str = html+"";
+
+    str = str.replace(/\s\s /g, "");
+
+    // <br />
+    str = str.replace(/<br \/>/g, "");
 
     // <p> <\p>
     str = str.replace(/<p>/g, "");
@@ -43,6 +47,70 @@ function HTMLtoWIKI(html) {
     // <em> </em> - italic text
     str = str.replace(/<em>/g, "''");
     str = str.replace(/<\/em>/g, "''");
+
+
+    // HTML Codes
+    str = str.replace(/(&nbsp;)*/g, ""); str = str.replace(/(&#32;)*/g, "");
+    str = str.replace(/&#33;/g, "!");
+    str = str.replace(/&#34;/g, "\""); str = str.replace(/&quot;/g, "\"");
+    str = str.replace(/&#35;/g, "#");
+    str = str.replace(/&#36;/g, "$");
+    str = str.replace(/&#37;/g, "%");
+    str = str.replace(/&#38;/g, "&"); str = str.replace(/&amp;/g, "&");
+    str = str.replace(/&#39;/g, "'");
+    str = str.replace(/&#40;/g, "(");
+    str = str.replace(/&#41;/g, ")");
+    str = str.replace(/&#42;/g, "*");
+    str = str.replace(/&#43;/g, "+");
+    str = str.replace(/&#44;/g, ",");
+    str = str.replace(/&#45;/g, "-");
+    str = str.replace(/&#46;/g, ".");
+    str = str.replace(/&#47;/g, "/");
+    str = str.replace(/&lt;/g, "<");
+    str = str.replace(/&gt;/g, ">");
+
+    // holy games with space characters
+    str = str.replace(/&nbsp;/g, " ");
+    str = str.replace(/( )+/g, " ");
+    str = str.replace(/(&nbsp;)+/g, " ");
+    str = str.replace(/(&nbsp;)+( )/g, " ");
+    str = str.replace(/( )+(&nbsp;)/g, " ");
+
+    // tables
+    // '<table ATTRIBUTES >' -> '{| ATTRIBUTES'
+    var tableOpenTag = str.match(/<table(.*?)>/);
+    while (tableOpenTag) {
+        str = str.replace(tableOpenTag[0], "{|" + tableOpenTag[1]);
+
+        //find next match
+        tableOpenTag = str.match(/<table(.*?)>/);
+    };
+
+    str = str.replace(/<\/table>/g, "|}");
+
+    str = str.replace(/<tbody>/g, "");
+    str = str.replace(/<\/tbody>/g, "");
+
+
+    str = str.replace(/<tr>/g, "|-");
+    str = str.replace(/<\/tr>/g, "|-");
+    str = str.replace(/ \|-/g, "|-");
+
+    str = str.replace(/<th>/g, "!");
+    str = str.replace(/<\/th>/g, "");
+    str = str.replace(/ !/g, "!");
+
+    str = str.replace(/<td>/g, "|");
+    str = str.replace(/<\/td>/g, "");
+    str = str.replace(/ \|/g, "|");
+
+    // double '|-' fix
+    str = str.replace(/(\|-)+(.*)+(\n *)+(\|-)+/g, "|-");
+
+    // first '|-' in table fix
+    str = str.replace(/\n \n\|-/g, "\n|-");
+    // last '|-' before '|}' fix
+    str = str.replace(/(\|-)+(.*)+(\n *)+(\|})/g, "|}");
 
     return str;
 }
