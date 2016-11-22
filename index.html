@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
 
-    <title>Visual wiki</title>
+    <title>Visual editor</title>
 
     <link rel="stylesheet" type="text/css" href="./src/style.css">
     <script type="text/javascript" src="./src/script.js"></script>
@@ -12,35 +12,47 @@
     <script type="text/javascript" src="./src/jquery-3.1.1.min.js"></script>
 </head>
 <body>
-    Hello!
+<div id="Main"> <span class="firstText">Visual html<span class="red">2</span>wiki editor</span> <span class="red secondText"> <br> by Vladyspav Oliinyk</span></div>
+<div id="navigation">
+    <ul class="nav">
+        <a href="#Main"><li class="icon-main"></li></a>
+        <a href="#About"><li class="icon-about"></li></a>
+    </ul>
+</div>
+<div id="editorDiv">
     <textarea name="editor" id="editor" cols="80" rows="10">
-        This is my textarea to be replaced with CKEditor.
+        This is my textarea and if you see this text something is goes very wrong.
     </textarea>
     <script>
-        CKEDITOR.replace( 'editor', {
+        CKEDITOR.replace('editor', {
             toolbarGroups: [
-                { name: 'document', groups: [ 'mode', 'document', 'doctools' ] },
-                { name: 'styles', groups: [ 'styles' ] },
-                { name: 'clipboard', groups: [ 'clipboard', 'undo' ] },
-                { name: 'editing', groups: [ 'find', 'selection', 'spellchecker', 'editing' ] },
-                { name: 'forms', groups: [ 'forms' ] },
-                { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
-                { name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi', 'paragraph' ] },
-                { name: 'links', groups: [ 'links' ] },
-                { name: 'insert', groups: [ 'insert' ] },
-                { name: 'colors', groups: [ 'colors' ] },
-                { name: 'tools', groups: [ 'tools' ] },
-                { name: 'others', groups: [ 'others' ] },
-                { name: 'about', groups: [ 'about' ] }
+                {name: 'document', groups: ['mode', 'document', 'doctools']},
+                {name: 'styles', groups: ['styles']},
+                {name: 'clipboard', groups: ['clipboard', 'undo']},
+                {name: 'editing', groups: ['find', 'selection', 'spellchecker', 'editing']},
+                {name: 'forms', groups: ['forms']},
+                {name: 'basicstyles', groups: ['basicstyles', 'cleanup']},
+                {name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align', 'bidi', 'paragraph']},
+                {name: 'links', groups: ['links']},
+                {name: 'insert', groups: ['insert']},
+                {name: 'colors', groups: ['colors']},
+                {name: 'tools', groups: ['tools']},
+                {name: 'others', groups: ['others']},
+                {name: 'about', groups: ['about']}
             ],
-                removeButtons: 'Cut,Copy,Paste,Undo,Redo,Anchor,Source,Save,NewPage,Preview,Print,Templates,PasteText,PasteFromWord,Find,Replace,SelectAll,Scayt,Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,CopyFormatting,RemoveFormat,NumberedList,BulletedList,Outdent,Indent,CreateDiv,Blockquote,BidiLtr,BidiRtl,Language,Image,Flash,HorizontalRule,Smiley,SpecialChar,PageBreak,Iframe,Font,FontSize,TextColor,BGColor,Maximize,ShowBlocks,About,Styles'
-        } );
+            removeButtons: 'Cut,Copy,Paste,Undo,Redo,Anchor,Source,Save,NewPage,Preview,Print,Templates,PasteText,PasteFromWord,Find,Replace,SelectAll,Scayt,Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,CopyFormatting,RemoveFormat,NumberedList,BulletedList,Outdent,Indent,CreateDiv,Blockquote,BidiLtr,BidiRtl,Language,Image,Flash,HorizontalRule,Smiley,SpecialChar,PageBreak,Iframe,Font,FontSize,TextColor,BGColor,Maximize,ShowBlocks,About,Styles'
+        });
     </script>
-    <button id="getHtmlBtn" name="copyBtn" onclick="getHtml()">Get HTML</button>
-    <br>
-    <textarea name="htmlcode" id="htmlcode" cols="80" rows="10"></textarea>
-    <br>
-    <button id="getWikiBtn" name="copyBtn" onclick="getWiki()">Get Wiki</button>
-    <textarea name="wikicode" id="wikicode" cols="80" rows="10"></textarea>
+    <div id="buttons">
+        <button id="getHtmlBtn" class="myButton" name="copyBtn" onclick="getHtml()">Get HTML</button>
+        <button id="getWikiBtn" class="myButton" name="copyBtn" onclick="getWiki()">Get Wiki</button>
+    </div>
+    <div id="textareas">
+        <textarea name="htmlcode" id="htmlcode" cols="80" rows="10"></textarea>
+        <textarea name="wikicode" id="wikicode" cols="80" rows="10"></textarea>
+    </div>
+</div>
+<div id="About"></div>
+<div id="footer"> f <br> f <br> f <br> f <br> f <br> f <br> f <br> f <br> f <br> f <br> f <br> f <br> f <br> f <br> f <br> f <br> f <br> f <br> f <br> f <br> f <br> f <br> f <br> f <br> f <br> f <br> f <br> f <br> f <br> f <br> f <br> f <br> f <br> f <br> </div>
 </body>
 </html>

@@ -1,0 +1,105 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-size: 1em;
+    font-family: "Century Gothic", serif;
+    font-style: normal;
+}
+
+body {
+    width: auto;
+    min-width: 1080px;
+}
+
+#Main, #buttons, #textareas {
+    min-width: 944px;
+    text-align: center;
+}
+
+#textareas {
+    padding-left: 0;
+}
+
+#htmlcode, #wikicode {
+    display: inline-block;
+    width: 500px;
+    resize: vertical;
+}
+
+.red {
+    color: #a93333;
+}
+
+.firstText {
+    font-size: 2em;
+    line-height: 1.7em;
+}
+
+.secondText {
+    font-size: 0.9em;
+    line-height: 1em;
+}
+
+#buttons {
+    padding: 10px 0;
+}
+
+.myButton {
+    width: 200px;
+    background-color: #a93333;
+    border: 1px solid #241d13;
+    display: inline-block;
+    cursor: pointer;
+    color: #ffffff;
+    font-size: 1em;
+    font-weight: bold;
+    padding: 9px 23px;
+    text-decoration: none;
+    text-shadow: 0px -1px 0px #a93333;
+}
+
+.myButton:hover {
+    background: linear-gradient(to bottom, #a93333, #9a2e2e);
+}
+
+.myButton:active {
+    position: relative;
+    top: 1px;
+}
+
+#editorDiv {
+    min-width: 944px;
+    padding-left: 80px;
+    padding-top: 10px;
+}
+
+#cke_editor {
+    margin: auto;
+}
+
+.nav {
+    position: fixed;
+    overflow: hidden;
+    width: 80px;
+    height: 100%;
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    background: #a93333;
+}
+
+.nav > a > li {
+    width: 80px;
+    height: 80px;
+    background-position: center;
+    background-size: cover;
+}
+
+.icon-main {
+    background: url("../src/img/nav-main.png");
+}
+
+.icon-about {
+    background: url("../src/img/nav-about.png");
+}
