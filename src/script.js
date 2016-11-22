@@ -10,53 +10,49 @@ function getHtml() {
 }
 
 function HTMLtoWIKI(html) {
-    var str = html+"";
+    var str = html + "";
 
-    str = str.replace(/\s\s /g, "");
-
-    // <br />
+    // Removing '<br />' tag.
     str = str.replace(/<br \/>/g, "");
 
-    // <p> <\p>
+    // Removing '<p>' and '<\p>' tags to wiki-markup view.
     str = str.replace(/<p>/g, "");
-    str = str.replace(/<\/p>/g, "\n");
+    str = str.replace(/<\/p>/g, "");
 
-    // H1 - 1st lvl header
+    // Translating headers.
     str = str.replace(/<h1>/g, "= ");
     str = str.replace(/<\/h1>/g, " =");
-    // H2 - 2nd lvl header
     str = str.replace(/<h2>/g, "== ");
     str = str.replace(/<\/h2>/g, " ==");
-    // H3 - 3rd lvl header
     str = str.replace(/<h3>/g, "=== ");
     str = str.replace(/<\/h3>/g, " ===");
-    // H4 - 4th lvl header
     str = str.replace(/<h4>/g, "==== ");
     str = str.replace(/<\/h4>/g, " ====");
-    // H5 - 5th lvl header
     str = str.replace(/<h5>/g, "===== ");
     str = str.replace(/<\/h5>/g, " =====");
-    // H6 - 6th lvl header
     str = str.replace(/<h6>/g, "====== ");
     str = str.replace(/<\/h6>/g, " ======");
 
-    // <strong> </strong> - bold text
+    // Translating '<strong>' and '</strong>' tags (bold text).
     str = str.replace(/<strong>/g, "'''");
     str = str.replace(/<\/strong>/g, "'''");
 
-    // <em> </em> - italic text
+    // Translating '<em>' and '</em>' tags (italic text).
     str = str.replace(/<em>/g, "''");
     str = str.replace(/<\/em>/g, "''");
 
 
-    // HTML Codes
-    str = str.replace(/(&nbsp;)*/g, ""); str = str.replace(/(&#32;)*/g, "");
+    // Translating some HTML codes.
+    str = str.replace(/(&nbsp;)*/g, "");
+    str = str.replace(/(&#32;)*/g, "");
     str = str.replace(/&#33;/g, "!");
-    str = str.replace(/&#34;/g, "\""); str = str.replace(/&quot;/g, "\"");
+    str = str.replace(/&#34;/g, "\"");
+    str = str.replace(/&quot;/g, "\"");
     str = str.replace(/&#35;/g, "#");
     str = str.replace(/&#36;/g, "$");
     str = str.replace(/&#37;/g, "%");
-    str = str.replace(/&#38;/g, "&"); str = str.replace(/&amp;/g, "&");
+    str = str.replace(/&#38;/g, "&");
+    str = str.replace(/&amp;/g, "&");
     str = str.replace(/&#39;/g, "'");
     str = str.replace(/&#40;/g, "(");
     str = str.replace(/&#41;/g, ")");
@@ -70,46 +66,59 @@ function HTMLtoWIKI(html) {
     str = str.replace(/&gt;/g, ">");
 
     // holy games with space characters
+    /* Removing duplication of spaces or non-breaking space, combinations of space and non-breaking space.  */
     str = str.replace(/&nbsp;/g, " ");
     str = str.replace(/( )+/g, " ");
     str = str.replace(/(&nbsp;)+/g, " ");
     str = str.replace(/(&nbsp;)+( )/g, " ");
     str = str.replace(/( )+(&nbsp;)/g, " ");
 
-    // tables
-    // '<table ATTRIBUTES >' -> '{| ATTRIBUTES'
+    ///// TABLES /////
+    // Translating '<table ATTRIBUTES >' to '{| ATTRIBUTES'.
     var tableOpenTag = str.match(/<table(.*?)>/);
     while (tableOpenTag) {
         str = str.replace(tableOpenTag[0], "{|" + tableOpenTag[1]);
 
         //find next match
         tableOpenTag = str.match(/<table(.*?)>/);
-    };
+    }
 
+    // Removing '<table>' and '</table>' tags.
     str = str.replace(/<\/table>/g, "|}");
 
+    // Removing '<tbody>' and '</tbody>' tags.
     str = str.replace(/<tbody>/g, "");
     str = str.replace(/<\/tbody>/g, "");
 
-
+    // Translating '<tr>' to '|-' and '</tr>' to '|-' and trash removing.
     str = str.replace(/<tr>/g, "|-");
     str = str.replace(/<\/tr>/g, "|-");
     str = str.replace(/ \|-/g, "|-");
 
+    // Translating '<th> ... </th>' to '! ...' and trash removing.
     str = str.replace(/<th>/g, "!");
     str = str.replace(/<\/th>/g, "");
     str = str.replace(/ !/g, "!");
 
+    // Translating '<td> ... </td>' to '| ...' and trash removing.
     str = str.replace(/<td>/g, "|");
     str = str.replace(/<\/td>/g, "");
     str = str.replace(/ \|/g, "|");
 
-    // double '|-' fix
+    // Double '|-' fix.
+    /* In html we have '<tr> ... </tr>' tags.
+     Both this tags translated to '|-' to wiki-markup.
+     And when we have two or more rows with '<tr> ... </tr>' after translate we get duplication of '|-' in two rows.
+     First '|-' from closing tag and second - from opening new row tag.
+     Fix consist of removing that duplication.*/
     str = str.replace(/(\|-)+(.*)+(\n *)+(\|-)+/g, "|-");
 
-    // first '|-' in table fix
+    // First '|-' in table fix.
+    /* Fix consist of removing all trash (unnecessary spaces and '\n') between end of attributes and first '|-' tag. */
     str = str.replace(/\n \n\|-/g, "\n|-");
-    // last '|-' before '|}' fix
+
+    // Last '|-' before '|}' fix.
+    /* Fix consist of removing all trash between last '|-' tag and the closing table tag. */
     str = str.replace(/(\|-)+(.*)+(\n *)+(\|})/g, "|}");
 
     return str;
