@@ -4,5 +4,8 @@
  */
 
 CKEDITOR.editorConfig = function( config ) {
+	config.language = 'en';
 	config.width = 944;
+	config.linkShowAdvancedTab = false;
+	config.linkShowTargetTab = false;
 };

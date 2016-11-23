@@ -16,8 +16,55 @@ function HTMLtoWIKI(html) {
     str = str.replace(/<br \/>/g, "");
 
     // Removing '<p>' and '<\p>' tags to wiki-markup view.
-    str = str.replace(/<p>/g, "");
-    str = str.replace(/<\/p>/g, "");
+    // Translating '<p ATTRIBUTES >' to '<p ATTRIBUTES >'.
+    var preOpenTag = str.match(/<p(.*?)>/);
+    while (preOpenTag) {
+        var preAttributes = preOpenTag[1];
+        if (preAttributes.length > 0) {
+            preAttributes = "<p " + preAttributes + " >";
+            str = str.replace(preOpenTag[0], preAttributes);
+
+        } else {
+            str = str.replace(preOpenTag[0], "");
+            str = str.replace(/<\/p>/g, "");
+        }
+        //find next match
+        preOpenTag = str.match(/<pre(.*?)>/);
+    }
+
+    // LISTS
+    str = str.replace(/<ol>/g, "");
+    str = str.replace(/<\/ol>/g, "");
+    // Translating '<li INSIDE-LIST >'
+    // var liOpenTag = str.match(/<li(.*?)>/);
+    // while (liOpenTag) {
+    //     var liAttributes = liOpenTag[1];
+    //     if (liAttributes.length > 0) {
+    //         liAttributes = "* " + liAttributes;
+    //     } else {
+    //         liAttributes = "* ";
+    //     }
+    //     str = str.replace(liOpenTag[0], liAttributes);
+    //
+    //     //find next match
+    //     liOpenTag = str.match(/<li(.*?)>/);
+    // }
+    // str = str.replace(/<\/li>/g, "");
+
+// <li>.*(<ol>(.*)<\/ol>)*<\/li>
+// <ol>
+//     <li>qwewqe</li>
+//     <li>asdasdasd
+//          <ol>
+//              <li>123123123</li>
+//              <li>4745654</li>
+//              <li>898089089</li>
+//          </ol>
+//     </li>
+//     <li>zxczxczx</li>
+//     <li>kjkjkjkjkkjk</li>
+// </ol>
+
 
     // Translating headers.
     str = str.replace(/<h1>/g, "= ");
@@ -73,6 +120,15 @@ function HTMLtoWIKI(html) {
     str = str.replace(/(&nbsp;)+( )/g, " ");
     str = str.replace(/( )+(&nbsp;)/g, " ");
 
+
+    str = str.replace(/<pre>/g, "<nowiki>");
+    str = str.replace(/<\/pre>/g, "</nowiki>");
+
+    str = str.replace(/<address>/g, "");
+    str = str.replace(/<div>/g, "");
+    str = str.replace(/<\/address>/g, "");
+    str = str.replace(/<\/div>/g, "");
+
     ///// TABLES /////
     // Translating '<table ATTRIBUTES >' to '{| ATTRIBUTES'.
     var tableOpenTag = str.match(/<table(.*?)>/);
@@ -101,7 +157,19 @@ function HTMLtoWIKI(html) {
     str = str.replace(/ !/g, "!");
 
     // Translating '<td> ... </td>' to '| ...' and trash removing.
-    str = str.replace(/<td>/g, "|");
+    var tdOpenTag = str.match(/<td(.*?)>/);
+    while (tdOpenTag) {
+        var tdAttributes = tdOpenTag[1];
+        if (tdAttributes.length > 0) {
+            tdAttributes = "| " + tdAttributes + " |";
+        } else {
+            tdAttributes = "| ";
+        }
+        str = str.replace(tdOpenTag[0], tdAttributes);
+
+        //find next match
+        tdOpenTag = str.match(/<td(.*?)>/);
+    }
     str = str.replace(/<\/td>/g, "");
     str = str.replace(/ \|/g, "|");
 
@@ -113,13 +181,15 @@ function HTMLtoWIKI(html) {
      Fix consist of removing that duplication.*/
     str = str.replace(/(\|-)+(.*)+(\n *)+(\|-)+/g, "|-");
 
+    str = str.replace(/\t/g, "");
+
     // First '|-' in table fix.
     /* Fix consist of removing all trash (unnecessary spaces and '\n') between end of attributes and first '|-' tag. */
-    str = str.replace(/\n \n\|-/g, "\n|-");
+    str = str.replace(/\n\n\|-/g, "\n|-");
 
     // Last '|-' before '|}' fix.
     /* Fix consist of removing all trash between last '|-' tag and the closing table tag. */
-    str = str.replace(/(\|-)+(.*)+(\n *)+(\|})/g, "|}");
+    str = str.replace(/(\|-)+(.*)+(\n)+(\|})/g, "|}");
 
     return str;
 }

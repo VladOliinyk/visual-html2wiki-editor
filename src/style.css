@@ -86,20 +86,27 @@ body {
     left: 0;
     margin: 0;
     padding: 0;
-    background: #a93333;
+    background-color: #eeeeee;
 }
 
-.nav > a > li {
+.nav-icon {
     width: 80px;
     height: 80px;
+    border-bottom: 1px solid #8d2a2a;
     background-position: center;
     background-size: cover;
 }
 
 .icon-main {
-    background: url("../src/img/nav-main.png");
+    background-color: #a93333;
+    background-image: url("../src/img/nav-main.png");
 }
 
 .icon-about {
-    background: url("../src/img/nav-about.png");
+    background-color: #a93333;
+    background-image: url("../src/img/nav-about.png");
+}
+
+.nav-icon:hover {
+    background-color: #8d2a2a;
 }
