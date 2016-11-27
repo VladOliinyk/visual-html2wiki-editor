@@ -66,6 +66,30 @@ function HTMLtoWIKI(html) {
 // </ol>
 
 
+    // проверить на http://www.pcre.ru/eval/
+    // ругулярка что находит "!"
+    // /   <li>(.*\t*)\n *\t*<ol>(\n( *\t*<li>.*\n)*\n* *\t*)<\/ol>\n *\t*<\/li> /g
+    //
+    // <ol>
+    //     <li>qwewqe</li>
+   // !    <li>asdasdasd                        // это походу в attributes[1]       //
+   // !        <ol>                                                                 //
+   // !            <li>123123123</li>       // а это все походу в attributes[2]     //
+   // !            <li>4745654</li>         //                                      //
+   // !            <li>898089089</li>       //                                      // а это все лежит в attributes[0]
+   // !            <li>4745654</li>         //                                      //
+   // !            <li>898089089</li>       //                                      //
+   // !            <li>4745654</li>         //                                      //
+   // !            <li>898089089</li>       //                                      //
+   // !            <li>4745654</li>         //                                      //
+   // !            <li>898089089</li>       //                                      //
+   // !        </ol>                                                                //
+   // !    </li>                                                                    //
+    //     <li>zxczxczx</li>
+    //     <li>kjkjkjkjkkjk</li>
+    // </ol>
+
+
     // Translating headers.
     str = str.replace(/<h1>/g, "= ");
     str = str.replace(/<\/h1>/g, " =");
