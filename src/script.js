@@ -2,7 +2,7 @@ function getHtml() {
 
     var editor = CKEDITOR.instances.editor;
 
-    var html = editor.getData()
+    var html = editor.getData();
     var textarea = $("#htmlcode");
 
     textarea.val(html);
@@ -32,63 +32,45 @@ function HTMLtoWIKI(html) {
         preOpenTag = str.match(/<pre(.*?)>/);
     }
 
-    // LISTS
-    str = str.replace(/<ol>/g, "");
-    str = str.replace(/<\/ol>/g, "");
-    // Translating '<li INSIDE-LIST >'
-    // var liOpenTag = str.match(/<li(.*?)>/);
-    // while (liOpenTag) {
-    //     var liAttributes = liOpenTag[1];
-    //     if (liAttributes.length > 0) {
-    //         liAttributes = "* " + liAttributes;
-    //     } else {
-    //         liAttributes = "* ";
-    //     }
-    //     str = str.replace(liOpenTag[0], liAttributes);
-    //
-    //     //find next match
-    //     liOpenTag = str.match(/<li(.*?)>/);
-    // }
-    // str = str.replace(/<\/li>/g, "");
 
-// <li>.*(<ol>(.*)<\/ol>)*<\/li>
-// <ol>
-//     <li>qwewqe</li>
-//     <li>asdasdasd
-//          <ol>
-//              <li>123123123</li>
-//              <li>4745654</li>
-//              <li>898089089</li>
-//          </ol>
-//     </li>
-//     <li>zxczxczx</li>
-//     <li>kjkjkjkjkkjk</li>
-// </ol>
+    ///// NUMBERED LISTS /////
+    // Function that repeat the @userStr @count times.
+    function repeatStr(count, userStr) {
+        var resultStr = userStr;
+        for (var i = count; i > 0; i--) {
+            resultStr += userStr;
+        }
+        return resultStr;
+    }
 
+    // Replace all list-level '<li>' tags to the the correct amount of '*'
+    // 1st-level -> '*', 2nd-level -> '**', etc.
+    var liOpenTag = str.match(/(.*)<li>/);
+    while (liOpenTag) {
+        var countOfTabs = liOpenTag[0].length - 5;
 
-    // проверить на http://www.pcre.ru/eval/
-    // ругулярка что находит "!"
-    // /   <li>(.*\t*)\n *\t*<ol>(\n( *\t*<li>.*\n)*\n* *\t*)<\/ol>\n *\t*<\/li> /g
-    //
-    // <ol>
-    //     <li>qwewqe</li>
-   // !    <li>asdasdasd                        // это походу в attributes[1]       //
-   // !        <ol>                                                                 //
-   // !            <li>123123123</li>       // а это все походу в attributes[2]     //
-   // !            <li>4745654</li>         //                                      //
-   // !            <li>898089089</li>       //                                      // а это все лежит в attributes[0]
-   // !            <li>4745654</li>         //                                      //
-   // !            <li>898089089</li>       //                                      //
-   // !            <li>4745654</li>         //                                      //
-   // !            <li>898089089</li>       //                                      //
-   // !            <li>4745654</li>         //                                      //
-   // !            <li>898089089</li>       //                                      //
-   // !        </ol>                                                                //
-   // !    </li>                                                                    //
-    //     <li>zxczxczx</li>
-    //     <li>kjkjkjkjkkjk</li>
-    // </ol>
+        var tmpStr = '*';
+        tmpStr = repeatStr(countOfTabs, tmpStr);
 
+        str = str.replace(liOpenTag[0], tmpStr);
+
+        //find next match
+        liOpenTag = str.match(/(.*)<li>/);
+    }
+
+    // Remove '<ol>' + '</li>' tags.
+    str = str.replace(/<\/ol>\n.*<\/li>\n/g, "");
+
+    // Remove '<ol>' tags.
+    str = str.replace(/<ol>\n/g, "");
+
+    // Remove single '</ol>' tags.
+    str = str.replace(/<\/ol>\n/g, "");
+
+    // Remove last '</li>' tags.
+    str = str.replace(/<\/li>/g, "");
+
+    ///// END OF NUMBERED LISTS /////
 
     // Translating headers.
     str = str.replace(/<h1>/g, "= ");
