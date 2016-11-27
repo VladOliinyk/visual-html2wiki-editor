@@ -62,7 +62,7 @@ function HTMLtoWIKI(html) {
     str = str.replace(/<\/ol>\n.*<\/li>\n/g, "");
 
     // Remove '<ol>' tags.
-    str = str.replace(/<ol>\n/g, "");
+    str = str.replace(/<ol(.*)>\n/g, "");
 
     // Remove single '</ol>' tags.
     str = str.replace(/<\/ol>\n/g, "");
