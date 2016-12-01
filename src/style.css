@@ -110,3 +110,9 @@ body {
 .nav-icon:hover {
     background-color: #8d2a2a;
 }
+
+#hiddenTextarea {
+    position: fixed;
+    top: 9000px;
+
+}

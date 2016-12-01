@@ -6,14 +6,20 @@ function getHtml() {
     var textarea = $("#htmlcode");
 
     textarea.val(html);
-    console.log("Here is your HTML: \n" + html);
+    copyToClipboard(html);
 }
 
 function HTMLtoWIKI(html) {
     var str = html + "";
 
+    ///////////////////////////////////////////// <BR> TAGS ///////////////////////////////////////////////
+
     // Removing '<br />' tag.
     str = str.replace(/<br \/>/g, "");
+
+    ////////////////////////////////////////// END OF <BR> TAGS ///////////////////////////////////////////
+
+    ////////////////////////////////////////////// <P> TAGS ///////////////////////////////////////////////
 
     // Removing '<p>' and '<\p>' tags to wiki-markup view.
     // Translating '<p ATTRIBUTES >' to '<p ATTRIBUTES >'.
@@ -32,8 +38,13 @@ function HTMLtoWIKI(html) {
         preOpenTag = str.match(/<pre(.*?)>/);
     }
 
+    // Remove last '<p>' tags.
+    str = str.replace(/<p>/g, "");
 
-    ///// NUMBERED LISTS /////
+    /////////////////////////////////////////// END OF <P> TAGS ////////////////////////////////////////////
+
+    //////////////////////////////////////////////// LISTS ////////////////////////////////////////////////
+
     // Function that repeat the @userStr @count times.
     function repeatStr(count, userStr) {
         var resultStr = userStr;
@@ -43,35 +54,116 @@ function HTMLtoWIKI(html) {
         return resultStr;
     }
 
-    // Replace all list-level '<li>' tags to the the correct amount of '*'
-    // 1st-level -> '*', 2nd-level -> '**', etc.
-    var liOpenTag = str.match(/(.*)<li>/);
-    while (liOpenTag) {
-        var countOfTabs = liOpenTag[0].length - 5;
+    /////////////////////////// NUMBERED LISTS ///////////////////////////
 
-        var tmpStr = '*';
-        tmpStr = repeatStr(countOfTabs, tmpStr);
-
-        str = str.replace(liOpenTag[0], tmpStr);
-
-        //find next match
-        liOpenTag = str.match(/(.*)<li>/);
+    // Match '<ol> ... </ol>' scope.
+    var tmpOlStr = str.match(/<ol>((.*\n*)*?)<\/ol>/g);
+    if (tmpOlStr != null) {
+        if (tmpOlStr.length > 0) {
+            str = str.replace(tmpOlStr[0], numberedList(tmpOlStr));
+        }
     }
 
-    // Remove '<ol>' + '</li>' tags.
-    str = str.replace(/<\/ol>\n.*<\/li>\n/g, "");
+    // Function that replace numbered list html-tags to correct analogue tags in wiki-text.
+    function numberedList(numberedListStr) {
+        if (numberedListStr != null) {
+            // Get actual '<ol> ... </ol>' scope part.
+            numberedListStr = numberedListStr[0];
 
-    // Remove '<ol>' tags.
-    str = str.replace(/<ol(.*)>\n/g, "");
+            // Replace all inner unnumbered list tags to numbered.
+            numberedListStr = numberedListStr.replace(/ul>/g, "ol>")
 
-    // Remove single '</ol>' tags.
-    str = str.replace(/<\/ol>\n/g, "");
+            // Replace each list-level '<li>' tags to the the correct amount of '*'
+            // 1st-level -> '*', 2nd-level -> '**', etc.
+            var liOpenTag = numberedListStr.match(/(.*)<li>/);
+            while (liOpenTag) {
+                var countOfTabs = liOpenTag[0].length - 5;
 
-    // Remove last '</li>' tags.
-    str = str.replace(/<\/li>/g, "");
+                var tmpStr = '*';
+                tmpStr = repeatStr(countOfTabs, tmpStr);
 
-    ///// END OF NUMBERED LISTS /////
+                numberedListStr = numberedListStr.replace(liOpenTag[0], tmpStr);
 
+                //find next match
+                liOpenTag = numberedListStr.match(/(.*)<li>/);
+            }
+
+            // Remove '<ol>' + '</li>' tags.
+            numberedListStr = numberedListStr.replace(/<\/ol>\n.*<\/li>\n/g, "");
+
+            // Remove '<ol>' tags.
+            numberedListStr = numberedListStr.replace(/<ol(.*)>\n/g, "");
+
+            // Remove single '</ol>' tags.
+            numberedListStr = numberedListStr.replace(/<\/ol>\n?/g, "");
+
+            // Remove last '</li>' tags.
+            numberedListStr = numberedListStr.replace(/<\/li>/g, "");
+
+            //str = str.replace(numberedListStr2, numberedListStr);
+        }
+
+        return numberedListStr;
+    }
+
+    //////////////////////////// END OF NUMBERED LISTS ///////////////////////////
+
+    ////////////////////////////// UNNUMBERED LISTS /////////////////////////////
+    // Match '<ul> ... </ul>' scope.
+    var tmpUlStr = str.match(/<ul>((.*\n*)*?)<\/ul>/g);
+    if (tmpUlStr != null) {
+        if (tmpUlStr.length > 0) {
+            str = str.replace(tmpUlStr[0], unnumberedList(tmpUlStr));
+        }
+    }
+
+    // Function that replace unnumbered list html-tags to correct analogue tags in wiki-text.
+    function unnumberedList(unnumberedListStr) {
+        if (unnumberedListStr != null) {
+            // Get actual '<ul> ... </ul>' scope part.
+            unnumberedListStr = unnumberedListStr[0];
+
+            // Replace all inner numbered list tags to unnumbered.
+            unnumberedListStr = unnumberedListStr.replace(/ol>/g, "ul>"); // work
+
+            // Replace each list-level '<li>' tags to the the correct amount of '*'
+            // 1st-level -> '#', 2nd-level -> '##', etc.
+            var unliOpenTag = unnumberedListStr.match(/(.*)<li>/);
+            while (unliOpenTag) {
+                var uncountOfTabs = unliOpenTag[0].length - 5;
+
+                var untmpStr = '#';
+                untmpStr = repeatStr(uncountOfTabs, untmpStr);
+
+                unnumberedListStr = unnumberedListStr.replace(unliOpenTag[0], untmpStr);
+
+                //find next match
+                unliOpenTag = unnumberedListStr.match(/(.*)<li>/);
+            }
+
+            // Remove '<ul>' + '</li>' tags.
+            unnumberedListStr = unnumberedListStr.replace(/<\/ul>\n.*<\/li>\n/g, "");
+
+            // Remove '<ul>' tags.
+            unnumberedListStr = unnumberedListStr.replace(/<ul(.*)>\n/g, "");
+
+            // Remove single '</ul>' tags.
+            unnumberedListStr = unnumberedListStr.replace(/<\/ul>\n?/g, "");
+
+            // Remove last '</li>' tags.
+            unnumberedListStr = unnumberedListStr.replace(/<\/li>/g, "");
+
+            //str = str.replace(unnumberedListStr2, unnumberedListStr);
+        }
+
+        return unnumberedListStr;
+    }
+
+    ////////////////////////////// END OF UNNUMBERED LISTS /////////////////////////////
+    //////////////////////////////////////////// END OF LISTS /////////////////////////////////////////////
+
+
+    ////////////////////////////////////////////// HEADERS ////////////////////////////////////////////////
     // Translating headers.
     str = str.replace(/<h1>/g, "= ");
     str = str.replace(/<\/h1>/g, " =");
@@ -86,14 +178,29 @@ function HTMLtoWIKI(html) {
     str = str.replace(/<h6>/g, "====== ");
     str = str.replace(/<\/h6>/g, " ======");
 
+    ////////////////////////////////////////// END OF HEADERS /////////////////////////////////////////////
+
+    /////////////////////////////////////// TEXT FORMATING TAGS ///////////////////////////////////////////
     // Translating '<strong>' and '</strong>' tags (bold text).
     str = str.replace(/<strong>/g, "'''");
     str = str.replace(/<\/strong>/g, "'''");
 
-    // Translating '<em>' and '</em>' tags (italic text).
     str = str.replace(/<em>/g, "''");
     str = str.replace(/<\/em>/g, "''");
 
+    str = str.replace(/<pre>/g, "<nowiki>");
+    str = str.replace(/<\/pre>/g, "</nowiki>");
+
+    str = str.replace(/<address>/g, "");
+    str = str.replace(/<div>/g, "");
+
+    str = str.replace(/<\/address>/g, "");
+    str = str.replace(/<\/div>/g, "");
+
+    /////////////////////////////////// END OF TEXT FORMATING TAGS ///////////////////////////////////////
+
+
+    /////////////////////////////////////////// HTML CODES ///////////////////////////////////////////////
 
     // Translating some HTML codes.
     str = str.replace(/(&nbsp;)*/g, "");
@@ -118,24 +225,25 @@ function HTMLtoWIKI(html) {
     str = str.replace(/&lt;/g, "<");
     str = str.replace(/&gt;/g, ">");
 
+    /////////////////////////////////////// END OF HTML CODES ////////////////////////////////////////////
+
+
+    //////////////////////////////////////////// SPACES //////////////////////////////////////////////////
+
     // holy games with space characters
-    /* Removing duplication of spaces or non-breaking space, combinations of space and non-breaking space.  */
+    /* Removing duplication of spaces or non-breaking space,
+     combinations of space and non-breaking space.  */
     str = str.replace(/&nbsp;/g, " ");
     str = str.replace(/( )+/g, " ");
     str = str.replace(/(&nbsp;)+/g, " ");
     str = str.replace(/(&nbsp;)+( )/g, " ");
     str = str.replace(/( )+(&nbsp;)/g, " ");
 
+    ///////////////////////////////////////// END OF SPACES //////////////////////////////////////////////
 
-    str = str.replace(/<pre>/g, "<nowiki>");
-    str = str.replace(/<\/pre>/g, "</nowiki>");
 
-    str = str.replace(/<address>/g, "");
-    str = str.replace(/<div>/g, "");
-    str = str.replace(/<\/address>/g, "");
-    str = str.replace(/<\/div>/g, "");
+    //////////////////////////////////////////// TABLES //////////////////////////////////////////////////
 
-    ///// TABLES /////
     // Translating '<table ATTRIBUTES >' to '{| ATTRIBUTES'.
     var tableOpenTag = str.match(/<table(.*?)>/);
     while (tableOpenTag) {
@@ -197,6 +305,8 @@ function HTMLtoWIKI(html) {
     /* Fix consist of removing all trash between last '|-' tag and the closing table tag. */
     str = str.replace(/(\|-)+(.*)+(\n)+(\|})/g, "|}");
 
+    ///////////////////////////////////////// END OF TABLES //////////////////////////////////////////////
+
     return str;
 }
 
@@ -213,5 +323,20 @@ function getWiki() {
     var wiki = HTMLtoWIKI(html);
 
     textarea.val(wiki);
-    console.log("Here is your wiki: \n" + wiki);
+    copyToClipboard(wiki);
+}
+
+
+function copyToClipboard(text) {
+    var copyTextarea = $("#hiddenTextarea");
+    copyTextarea.val(text);
+    copyTextarea.select();
+    try {
+        var successful = document.execCommand('copy');
+        var msg = successful ? 'successful' : 'unsuccessful';
+        console.log('Copying text command was ' + msg);
+    } catch (err) {
+        console.log('Oops, unable to copy');
+    }
+
 }
