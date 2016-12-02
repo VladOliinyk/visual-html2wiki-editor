@@ -10,51 +10,115 @@
     <script type="text/javascript" src="./src/ckeditor/ckeditor.js"></script>
 
     <script type="text/javascript" src="./src/jquery-3.1.1.min.js"></script>
+
+    <script>
+            $(function(){
+                $('a[href^="#"]').click(function(){
+                    var target = $(this).attr('href');
+                    $('html, body').animate(
+                            {scrollTop: $(target).offset().top + 2}, 800);
+                    //800 - длительность скроллинга в мс
+                    return false;
+                });
+            });
+    </script>
 </head>
 <body>
-<div id="Main"> <span class="firstText">Visual html<span class="red">2</span>wiki editor</span> <span class="red secondText"> <br> by Vladyspav Oliinyk</span></div>
 <div id="navigation">
     <ul class="nav">
-        <a href="#Main"><li class="nav-icon icon-main"></li></a>
-        <a href="#About"><li class="nav-icon icon-about"></li></a>
+        <a href="#Main">
+            <li class="nav-icon icon-main"></li>
+        </a>
+        <a href="#About">
+            <li class="nav-icon icon-about"></li>
+        </a>
     </ul>
 </div>
+
+<div id="Main">
+    <span class="firstText">Visual html<span class="red">2</span>wiki editor</span> <span
+        class="red secondText"> <br> by Vladyspav Oliinyk</span>
+</div>
+
 <div id="editorDiv">
+    <div id="editorDivContent">
     <textarea name="editor" id="editor" cols="80" rows="10">
         This is <strong>your textarea</strong> and you can<em> freely </em>edit your text. <br>
         And then <u>press the cool red button</u> below!
     </textarea>
-    <script>
-        CKEDITOR.replace('editor', {
-            toolbarGroups: [
-                {name: 'document', groups: ['mode', 'document', 'doctools']},
-                {name: 'styles', groups: ['styles']},
-                {name: 'clipboard', groups: ['clipboard', 'undo']},
-                {name: 'editing', groups: ['find', 'selection', 'spellchecker', 'editing']},
-                {name: 'forms', groups: ['forms']},
-                {name: 'basicstyles', groups: ['basicstyles', 'cleanup']},
-                {name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align', 'bidi', 'paragraph']},
-                {name: 'links', groups: ['links']},
-                {name: 'insert', groups: ['insert']},
-                {name: 'colors', groups: ['colors']},
-                {name: 'tools', groups: ['tools']},
-                {name: 'others', groups: ['others']},
-                {name: 'about', groups: ['about']}
-            ],
-            removeButtons: 'Cut,Copy,Paste,Undo,Redo,Anchor,Source,Save,NewPage,Preview,Print,Templates,PasteText,PasteFromWord,Find,Replace,SelectAll,Scayt,Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,CopyFormatting,RemoveFormat,CreateDiv,Blockquote,BidiLtr,BidiRtl,Language,Image,Flash,HorizontalRule,Smiley,SpecialChar,PageBreak,Iframe,Font,FontSize,TextColor,BGColor,Maximize,ShowBlocks,About,Styles'
-        });
-    </script>
-    <div id="buttons">
-        <button id="getHtmlBtn" class="myButton" name="copyBtn" onclick="getHtml()">Get HTML</button>
-        <button id="getWikiBtn" class="myButton" name="copyBtn" onclick="getWiki()">Get Wiki</button>
-    </div>
-    <div id="textareas">
-        <textarea name="htmlcode" id="htmlcode" cols="80" rows="10"></textarea>
-        <textarea name="wikicode"  id="wikicode" cols="80" rows="10"></textarea>
-        <textarea name="hiddenTextarea"  id="hiddenTextarea" cols="80" rows="10"></textarea>
+        <script>
+            CKEDITOR.replace('editor', {
+                toolbarGroups: [
+                    {name: 'document', groups: ['mode', 'document', 'doctools']},
+                    {name: 'styles', groups: ['styles']},
+                    {name: 'clipboard', groups: ['clipboard', 'undo']},
+                    {name: 'editing', groups: ['find', 'selection', 'spellchecker', 'editing']},
+                    {name: 'forms', groups: ['forms']},
+                    {name: 'basicstyles', groups: ['basicstyles', 'cleanup']},
+                    {name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align', 'bidi', 'paragraph']},
+                    {name: 'links', groups: ['links']},
+                    {name: 'insert', groups: ['insert']},
+                    {name: 'colors', groups: ['colors']},
+                    {name: 'tools', groups: ['tools']},
+                    {name: 'others', groups: ['others']},
+                    {name: 'about', groups: ['about']}
+                ],
+                removeButtons: 'Cut,Copy,Paste,Undo,Redo,Anchor,Source,Save,NewPage,Preview,Print,Templates,PasteText,PasteFromWord,Find,Replace,SelectAll,Scayt,Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,CopyFormatting,RemoveFormat,CreateDiv,Blockquote,BidiLtr,BidiRtl,Language,Image,Flash,HorizontalRule,Smiley,SpecialChar,PageBreak,Iframe,Font,FontSize,TextColor,BGColor,Maximize,ShowBlocks,About,Styles'
+            });
+        </script>
+        <div id="buttons">
+            <button id="getHtmlBtn" class="myButton" name="copyBtn" onclick="getHtml()">Get HTML</button>
+            <button id="getWikiBtn" class="myButton" name="copyBtn" onclick="getWiki()">Get Wiki</button>
+        </div>
+        <div id="textareas">
+            <textarea name="htmlcode" id="htmlcode" cols="80" rows="10"></textarea>
+            <textarea name="wikicode" id="wikicode" cols="80" rows="10"></textarea>
+            <textarea name="hiddenTextarea" id="hiddenTextarea" cols="80" rows="10"></textarea>
+        </div>
     </div>
 </div>
-<div id="About"></div>
-<div id="footer"> </div>
+<div id="About">
+    <div id="aTitle">
+        About
+    </div>
+    <div id="aContent">
+
+        <div class="serveces-wrap">
+            <div id="usedTech"> Used technology </div>
+            <div class="services-item serv1">
+                <div class="s-item-bg"></div>
+                <h5 class="title">graphic design</h5>
+                <p>A design of logos, banners, posters, layouts for the website, thumbnails for videos. Creating photo collages and calendars of any size.</p>
+            </div>
+            <div class="services-item serv2">
+                <h5 class="title">photo editing &amp; effects</h5>
+                <p>Photo processing, retouching, color correction, restoration of old photos, removing unwanted objects from the background, and more.</p>
+            </div>
+            <div class="services-item serv3">
+                <h5 class="title">video editing &amp; effects</h5>
+                <p>A design of screen saver for the streams, promotional videos, preview trailer, video presentations, intro/outro for the channels.</p>
+            </div>
+        </div>
+
+        <div class="serveces-wrap">
+            <div id="features"> Features </div>
+            <div class="services-item serv1">
+                <div class="s-item-bg"></div>
+                <h5 class="title">graphic design</h5>
+                <p>A design of logos, banners, posters, layouts for the website, thumbnails for videos. Creating photo collages and calendars of any size.</p>
+            </div>
+            <div class="services-item serv2">
+                <h5 class="title">photo editing &amp; effects</h5>
+                <p>Photo processing, retouching, color correction, restoration of old photos, removing unwanted objects from the background, and more.</p>
+            </div>
+            <div class="services-item serv3">
+                <h5 class="title">video editing &amp; effects</h5>
+                <p>A design of screen saver for the streams, promotional videos, preview trailer, video presentations, intro/outro for the channels.</p>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div id="footer"></div>
 </body>
 </html>

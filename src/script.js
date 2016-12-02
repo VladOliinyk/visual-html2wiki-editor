@@ -1,3 +1,4 @@
+
 function getHtml() {
 
     var editor = CKEDITOR.instances.editor;
@@ -340,3 +341,4 @@ function copyToClipboard(text) {
     }
 
 }
+

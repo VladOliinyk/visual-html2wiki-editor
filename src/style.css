@@ -12,6 +12,7 @@ body {
 }
 
 #Main, #buttons, #textareas {
+    padding: 15px 0;
     min-width: 944px;
     text-align: center;
 }
@@ -22,7 +23,7 @@ body {
 
 #htmlcode, #wikicode {
     display: inline-block;
-    width: 500px;
+    width: 450px;
     resize: vertical;
 }
 
@@ -55,11 +56,11 @@ body {
     font-weight: bold;
     padding: 9px 23px;
     text-decoration: none;
-    text-shadow: 0px -1px 0px #a93333;
+    text-shadow: 0px -1px 0px #9f3030;
 }
 
 .myButton:hover {
-    background: linear-gradient(to bottom, #a93333, #9a2e2e);
+    background: linear-gradient(to bottom, #a93333, #9f3030);
 }
 
 .myButton:active {
@@ -70,7 +71,9 @@ body {
 #editorDiv {
     min-width: 944px;
     padding-left: 80px;
-    padding-top: 10px;
+    padding-top: 25px;
+    padding-bottom: 50px;
+    /*max-height: 100vh;*/
 }
 
 #cke_editor {
@@ -92,7 +95,8 @@ body {
 .nav-icon {
     width: 80px;
     height: 80px;
-    border-bottom: 1px solid #8d2a2a;
+    border-bottom: 1px solid #a93333;
+    border-right: 1px solid #a93333;
     background-position: center;
     background-size: cover;
 }
@@ -108,11 +112,56 @@ body {
 }
 
 .nav-icon:hover {
-    background-color: #8d2a2a;
+    background-color: #9f3030;
 }
 
 #hiddenTextarea {
     position: fixed;
     top: 9000px;
+}
 
+#About {
+    min-height: 100vh;
+    background-color: #9f3030;
+    background-image: url("./img/bg.png");
+    background-size: cover;
+    padding: 50px 10px 0 100px;
+}
+
+
+#services {
+    background-color: #f7f7f7;
+}
+
+.services-item {
+    float: left;
+    width: 20%;
+    padding: 50px 0;
+    text-align: center;
+}
+
+.services-item h5.title {
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    font: bold 18px/18px Arial, sans-serif;
+    color: #1f323c;
+}
+
+.services-item p {
+    line-height: 20px;
+    color: #777;
+}
+
+.serv1 {
+    /*background: url(./img/s-item1.png) no-repeat center top;*/
+    padding-left: 10%;
+}
+.serv2 {
+    padding-left: 10%;
+    padding-right: 10%;
+    /*background: url(./img/s-item2.png) no-repeat center top;*/
+}
+.serv3 {
+    padding-right: 10%;
+    /*background: url(./img/s-item3.png) no-repeat center top;*/
 }
