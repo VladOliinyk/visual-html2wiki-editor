@@ -6,21 +6,42 @@
     <title>Visual editor</title>
 
     <link rel="stylesheet" type="text/css" href="./src/style.css">
-    <script type="text/javascript" src="./src/script.js"></script>
-    <script type="text/javascript" src="./src/ckeditor/ckeditor.js"></script>
 
     <script type="text/javascript" src="./src/jquery-3.1.1.min.js"></script>
 
+    <script type="text/javascript" src="./src/script.js"></script>
+    <script type="text/javascript" src="./src/ckeditor/ckeditor.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="./src/tooltipster/dist/css/tooltipster.bundle.min.css" />
+    <link rel="stylesheet" type="text/css" href="./src/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-light.min.css" />
+    <script type="text/javascript" src="./src/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+
     <script>
-            $(function(){
-                $('a[href^="#"]').click(function(){
-                    var target = $(this).attr('href');
-                    $('html, body').animate(
-                            {scrollTop: $(target).offset().top + 2}, 800);
-                    //800 - длительность скроллинга в мс
-                    return false;
-                });
+        $(function () {
+            $('a[href^="#"]').click(function () {
+                var target = $(this).attr('href');
+                $('html, body').animate(
+                        {scrollTop: $(target).offset().top + 2}, 800);
+                //800 - длительность скроллинга в мс
+                return false;
             });
+        });
+
+        $(document).ready(function() {
+            $('.tooltipR').tooltipster({
+                theme: 'tooltipster-light',
+                trigger: 'click',
+                side: 'right'
+            });
+            $('.tooltipL').tooltipster({
+                theme: 'tooltipster-light',
+                trigger: 'click',
+                side: 'left'
+            });
+        });
+
+
+
     </script>
 </head>
 <body>
@@ -34,14 +55,13 @@
         </a>
     </ul>
 </div>
+<div id="FirstScr">
+    <div id="Main">
+        <span class="firstText">Visual html<span class="red">2</span>wiki editor</span> <span
+            class="red secondText"> <br> by Vladyspav Oliinyk</span>
+    </div>
+    <div id="editorDiv">
 
-<div id="Main">
-    <span class="firstText">Visual html<span class="red">2</span>wiki editor</span> <span
-        class="red secondText"> <br> by Vladyspav Oliinyk</span>
-</div>
-
-<div id="editorDiv">
-    <div id="editorDivContent">
     <textarea name="editor" id="editor" cols="80" rows="10">
         This is <strong>your textarea</strong> and you can<em> freely </em>edit your text. <br>
         And then <u>press the cool red button</u> below!
@@ -67,8 +87,8 @@
             });
         </script>
         <div id="buttons">
-            <button id="getHtmlBtn" class="myButton" name="copyBtn" onclick="getHtml()">Get HTML</button>
-            <button id="getWikiBtn" class="myButton" name="copyBtn" onclick="getWiki()">Get Wiki</button>
+            <button id="getHtmlBtn" class="myButton tooltipL" title="HTML-text copied!" name="copyBtn" onclick="getHtml()">Get HTML</button>
+            <button id="getWikiBtn" class="myButton tooltipR" title="wiki-markup copied!" name="copyBtn" onclick="getWiki()">Get Wiki</button>
         </div>
         <div id="textareas">
             <textarea name="htmlcode" id="htmlcode" cols="80" rows="10"></textarea>
@@ -78,44 +98,46 @@
     </div>
 </div>
 <div id="About">
-    <div id="aTitle">
+    <div id="aboutMainTitle">
         About
     </div>
     <div id="aContent">
 
-        <div class="serveces-wrap">
-            <div id="usedTech"> Used technology </div>
-            <div class="services-item serv1">
-                <div class="s-item-bg"></div>
-                <h5 class="title">graphic design</h5>
-                <p>A design of logos, banners, posters, layouts for the website, thumbnails for videos. Creating photo collages and calendars of any size.</p>
+        <div class="services-wrap">
+            <div class="aTitle"> Features</div>
+            <div class="about-item about1">
+                <p class="aboutTitle"> Easy and convenient </p>
+                <p> Included all the necessary tools to create the <span class="focusSpan">correct</span> wiki markup.
+                </p>
             </div>
-            <div class="services-item serv2">
-                <h5 class="title">photo editing &amp; effects</h5>
-                <p>Photo processing, retouching, color correction, restoration of old photos, removing unwanted objects from the background, and more.</p>
+            <div class="about-item about2">
+                <p class="aboutTitle"> Two markup languages </p>
+                <p> The opportunity to receive <span class="focusSpan">html</span> or <span
+                        class="focusSpan">wiki-text</span> from the edit window text.</p>
             </div>
-            <div class="services-item serv3">
-                <h5 class="title">video editing &amp; effects</h5>
-                <p>A design of screen saver for the streams, promotional videos, preview trailer, video presentations, intro/outro for the channels.</p>
+            <div class="about-item about3">
+                <p class="aboutTitle"> Support for all editors </p>
+                <p> Our service recognizes the text formatting from <span class="focusSpan">any other editor</span>.
+                </p>
             </div>
         </div>
 
-        <div class="serveces-wrap">
-            <div id="features"> Features </div>
-            <div class="services-item serv1">
-                <div class="s-item-bg"></div>
-                <h5 class="title">graphic design</h5>
-                <p>A design of logos, banners, posters, layouts for the website, thumbnails for videos. Creating photo collages and calendars of any size.</p>
+        <div class="services-wrap">
+            <div class="aTitle"> Used technology</div>
+            <div class="about-item about1">
+                <p class="aboutTitle">CKEditor</p>
+                <p> Is an open source WYSIWYG text editor, designed to simplify common text processing.</p>
             </div>
-            <div class="services-item serv2">
-                <h5 class="title">photo editing &amp; effects</h5>
-                <p>Photo processing, retouching, color correction, restoration of old photos, removing unwanted objects from the background, and more.</p>
+            <div class="about-item about2">
+                <p class="aboutTitle"> JavaScript </p>
+                <p> Is a high-level, dynamic, untyped, and interpreted programming language. </p>
             </div>
-            <div class="services-item serv3">
-                <h5 class="title">video editing &amp; effects</h5>
-                <p>A design of screen saver for the streams, promotional videos, preview trailer, video presentations, intro/outro for the channels.</p>
+            <div class="about-item about3">
+                <p class="aboutTitle"> Regex101 </p>
+                <p> Is a site that allows you to test regular expressions. </p>
             </div>
         </div>
+
 
     </div>
 </div>

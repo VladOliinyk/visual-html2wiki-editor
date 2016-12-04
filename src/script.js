@@ -20,6 +20,25 @@ function HTMLtoWIKI(html) {
 
     ////////////////////////////////////////// END OF <BR> TAGS ///////////////////////////////////////////
 
+    /////////////////////////////////////// TEXT FORMATING TAGS ///////////////////////////////////////////
+    // Translating '<strong>' and '</strong>' tags (bold text).
+    str = str.replace(/<strong>/g, "'''");
+    str = str.replace(/<\/strong>/g, "'''");
+
+    str = str.replace(/<em>/g, "''");
+    str = str.replace(/<\/em>/g, "''");
+
+    str = str.replace(/<pre>/g, "<nowiki>");
+    str = str.replace(/<\/pre>/g, "</nowiki>");
+
+    str = str.replace(/<address>/g, "");
+    str = str.replace(/<div>/g, "");
+
+    str = str.replace(/<\/address>/g, "");
+    str = str.replace(/<\/div>/g, "");
+
+    /////////////////////////////////// END OF TEXT FORMATING TAGS ///////////////////////////////////////
+
     ////////////////////////////////////////////// <P> TAGS ///////////////////////////////////////////////
 
     // Removing '<p>' and '<\p>' tags to wiki-markup view.
@@ -43,6 +62,23 @@ function HTMLtoWIKI(html) {
     str = str.replace(/<p>/g, "");
 
     /////////////////////////////////////////// END OF <P> TAGS ////////////////////////////////////////////
+
+
+    // Translating '<a LINK_URL > LINK_TEXT </a>' to '[LINK_URL LINK TEXT]' //and trash removing.
+    var linkTag = str.match(/<a(.*href="(.*)")>(.*)<\/a>/);
+    while (linkTag) {
+        var linkUrl = linkTag[2];
+        var linkText = linkTag[3];
+        var linkStr = "";
+        if (linkUrl.length > 0) {
+            linkStr = "[" + linkUrl + " " + linkText + "]";
+        }
+        str = str.replace(linkTag[0], linkStr);
+
+        //find next match
+        linkTag = str.match(/<a(.*href="(.*)")>(.*)<\/a>/);
+    }
+
 
     //////////////////////////////////////////////// LISTS ////////////////////////////////////////////////
 
@@ -180,25 +216,6 @@ function HTMLtoWIKI(html) {
     str = str.replace(/<\/h6>/g, " ======");
 
     ////////////////////////////////////////// END OF HEADERS /////////////////////////////////////////////
-
-    /////////////////////////////////////// TEXT FORMATING TAGS ///////////////////////////////////////////
-    // Translating '<strong>' and '</strong>' tags (bold text).
-    str = str.replace(/<strong>/g, "'''");
-    str = str.replace(/<\/strong>/g, "'''");
-
-    str = str.replace(/<em>/g, "''");
-    str = str.replace(/<\/em>/g, "''");
-
-    str = str.replace(/<pre>/g, "<nowiki>");
-    str = str.replace(/<\/pre>/g, "</nowiki>");
-
-    str = str.replace(/<address>/g, "");
-    str = str.replace(/<div>/g, "");
-
-    str = str.replace(/<\/address>/g, "");
-    str = str.replace(/<\/div>/g, "");
-
-    /////////////////////////////////// END OF TEXT FORMATING TAGS ///////////////////////////////////////
 
 
     /////////////////////////////////////////// HTML CODES ///////////////////////////////////////////////
