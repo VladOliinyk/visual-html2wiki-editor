@@ -180,3 +180,18 @@ body {
 .focusSpan {
     color: #9c3328;
 }
+
+
+a {
+    color: #a93333;
+    text-decoration: none;
+}
+
+
+#footer {
+    padding-top: 3em;
+}
+
+.footer-text {
+    text-align: center;
+}
